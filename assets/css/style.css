@@ -1,0 +1,24 @@
+body {
+background: black;
+color: white;
+text-align: center;
+margin: 0 auto;
+font-family: Georgia, 'Times New Roman', Times, serif
+};
+
+h1 {
+    font-size: 150px;
+}
+
+.container {
+    width: 1300px;
+    border: white dotted 2px;
+}
+
+#game {
+    border-left: white dotted 2px;
+}
+
+#image-div {
+    width: auto;
+}

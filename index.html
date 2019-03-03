@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="assets/css/style.css"/>
+</head>
+
+<body> 
+<header>
+    <h1>Word-Guess Game!</h1>
+    <img class="eighties" src="https://i.pinimg.com/originals/ce/73/32/ce7332b13ae1918638f6492a0c963312.png" />  
+</header> 
+<div class="container">
+<div class="row">
+<div id="image-div" class="col-md-6"></div>
+<div id="game" class="col-md-6">
+    <h2>Press any key to get started!</h2>
+    <h2>Wins:</h2>
+    <h2 id="wins-Score"></h2>
+    <h2>Current Word:</h2>
+    <h2 id="underscore-word"></h2>
+    <h2>Number of Guesses Remaining:</h2>
+    <h2 id="guesses-Remaining"></h2>
+    <h2>Letters Already Used:</h2>
+    <h2 id="letters-Used"></h2>
+</div>    
+</div>
+<script type="text/javascript">
+
+// VARIABLES
+
+var wins = 0;
+var wordBank = ['dude', 'journey', 'tubular', 'queen', 'bitchin', 'bon jovi', 'radical', 'bodacious', 'aerosmith'];
+var lettersUsed = [];
+var guessesRemaining = (15 - lettersUsed.length);
+var computerChoice = "";
+var currentWord = []
+var underscoreWord = [];
+
+
+// Create variables that hold references to the places in the HTML where we want to display things.
+var winsScoreText = document.getElementById("wins-Score");
+var underscoreWordText = document.getElementById("underscore-word");
+var guessesRemainingText = document.getElementById("guesses-Remaining");
+var lettersUsedText = document.getElementById("letters-Used");
+
+// FUNCTIONS
+
+//on page load function...
+function onPageLoad() {
+    computerChoice = wordBank[Math.floor(Math.random()*wordBank.length)];
+    currentWord = computerChoice.split("");
+    
+for (var i = 0; i<currentWord.length; i++) {
+   underscoreWord.push('_');
+   underscoreWordText.textContent = underscoreWord;
+ }
+}
+
+//check current word for letter...
+function checkCurrentWord(userGuess) {
+
+// If they guess a correct letter, replace correct underscore in underscoreWord
+for (var i=0; i<currentWord.length; i++) {
+    if (currentWord[i] === userGuess) {
+    underscoreWord[i] = userGuess;
+    underscoreWordText.textContent = underscoreWord;
+    } 
+}
+
+if (underscoreWord.includes("_") === false) {
+    alert("YOU WON! Your word was '" + computerChoice + "'. Press any key to play again.");
+    youwon();
+    wins++
+    winsScoreText.textContent = wins;
+    lettersUsed = [];
+    lettersUsedText.textContent = lettersUsed;
+    guessesRemaining = (15 - lettersUsed.length);
+    computerChoice = "";
+    currentWord = [];
+    underscoreWord = [];
+    onPageLoad();
+ } 
+ //push userGuess to array and subtract one from guessesRemaining
+ else if ((currentWord.includes(userGuess) === false)) {
+     lettersUsed.push(userGuess);
+     lettersUsedText.textContent = lettersUsed;
+     var guessesRemaining = (15 - lettersUsed.length);
+     guessesRemainingText.textContent = guessesRemaining;
+ }  
+
+if (guessesRemaining === 0) {
+    var guessesRemaining = (15 - lettersUsed.length);
+    alert("Bummer - you lost! Your word was '" + computerChoice + "'. Press any key to play again.");
+//reset all variables to zero.
+    lettersUsed = [];
+    lettersUsedText.textContent = lettersUsed;
+    guessesRemaining = (15 - lettersUsed.length);
+    computerChoice = "";
+    currentWord = [];
+    underscoreWord = [];
+    onPageLoad();
+}
+
+function youwon() {
+if (computerChoice === "dude"){
+    $("#image-div").html("<img src='https://media.giphy.com/media/3oEduVxodAhqX5M568/giphy.gif'/>");
+}
+else if (computerChoice === "journey"){
+    $("#image-div").html("<img src='https://media.giphy.com/media/nyPZB25Mg1pe/giphy.gif'/>");
+}
+else if (computerChoice === "tubular"){
+    $("#image-div").html("<img src='https://media.giphy.com/media/wZz7A5clI6qSk/giphy.gif'/>");
+}      
+else if (computerChoice === "queen"){
+    $("#image-div").html("<img src='https://media.giphy.com/media/Wkj36ML9cZrWg/giphy.gif'/>");
+} 
+else if (computerChoice === "bitchin"){
+    $("#image-div").html("<img src='https://media.giphy.com/media/1Lxv9tTGjmo0w/giphy.gif'/>");
+} 
+else if (computerChoice === "bon jovi"){
+    $("#image-div").html("<img src='https://media0.giphy.com/media/QFCSHYZNCbKO4/giphy.gif'/>");
+}
+else if (computerChoice === "radical"){
+    $("#image-div").html("<img src='https://media.giphy.com/media/Gixb56wY4LceA/giphy.gif'/>");
+}  
+else if (computerChoice === "bodacious"){
+    $("#image-div").html("<img src='https://media.giphy.com/media/GAVOCT24iqgJa/giphy.gif'/>");
+}
+else if (computerChoice === "aerosmith"){
+    $("#image-div").html("<img src='https://media0.giphy.com/media/NqpjIQaqtzjUI/source.gif'/>");
+}; 
+}
+}
+
+
+
+
+// MAIN PROCESS
+// call functions to start the game
+
+onPageLoad();
+
+document.onkeyup = function(event) {
+    var userGuess = event.key.toLowerCase();
+    $("#image-div").html("<img src=''/>"); 
+    checkCurrentWord(userGuess);
+}
+
+
+</script>  
+
+</body>
+</html>
